@@ -1,22 +1,18 @@
-import rclpy                     #ROS2のクライアントのためのライブラリ
+import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Int16 #使う型を変更
-
-class Talker():
-    def _init_(self):
-        self.pub = node.create_publisher(Int16, "countup", 10)
-        self.n = 0
-
+from std_msgs.msg import Int16
 
 rclpy.init()
 node = Node("talker")
-talker = Talker()
+pub = node.create_publisher(Int16, "countup", 10)
+n = 0
 
 def cb():
-     msg = Int16()         #受信するデータの型を変更
-     msg.data = talker.n  #msgファイルに書いた「name」
-     talker.pub.publish(msg)
-     talker.n += 1
+    global n
+    msg = Int16()
+    msg.data = n
+    pub.publish(msg)
+    n += 1
 
 node.create_timer(0.5, cb)
 rclpy.spin(node)
